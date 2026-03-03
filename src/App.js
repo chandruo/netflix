@@ -1,11 +1,8 @@
-
-import './App.css';
+import Body from "./components/Body"
 
 function App() {
   return (
-    <div className="App">
-     <h1 className='bg-white text-red-700'>Welcome to Netflix Clone</h1>
-    </div>
+   <Body></Body>
   );
 }
 
