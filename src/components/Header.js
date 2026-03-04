@@ -1,9 +1,53 @@
+import { signOut } from "firebase/auth";
+import { auth } from "../utils/firebase";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { useDispatch } from "react-redux";
+import { addUser, removeUser } from "../utils/userSlice";
+import {LOGO} from "../utils/constant"
+
 const Header = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const user = useSelector((store) => store.user);
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+    } catch (error) {}
+  };
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const { uid, email, displayName } = user;
+        dispatch(addUser({ uid: uid, email: email, displayName: displayName }));
+        navigate("/browse");
+      } else {
+        dispatch(removeUser());
+        navigate("/");
+      }
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+  return (
+    <div className="absolute w-screen bg-gradient-to-b from-black z-10 flex justify-between">
+      <img
+        className="w-40 px-8 py-2"
+        src={LOGO}
+        alt="logo"
+      />
+      {user && (
+        <div>
+          <button onClick={handleSignOut} className="font-bold p-2 m-2 text-white">
+            Sign out
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};
 
-return(<div className="absolute bg-gradient-to-b from-black z-10">
-<img className="w-40 px-8 py-2" src="https://help.nflxext.com/helpcenter/OneTrust/oneTrust_production_2026-02-12/consent/87b6a5c0-0104-4e96-a291-092c11350111/019ae4b5-d8fb-7693-90ba-7a61d24a8837/logos/dd6b162f-1a32-456a-9cfe-897231c7763c/4345ea78-053c-46d2-b11e-09adaef973dc/Netflix_Logo_PMS.png" alt="logo"/>
-
-</div>)
-}
-
-export default Header
+export default Header;

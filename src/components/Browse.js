@@ -1,9 +1,17 @@
-import React from 'react'
+import React, { useEffect } from "react";
+import Header from "./Header";
+import useFetchMovieList from "../hooks/useFetchMovieList";
+import MainContianer from "./MainContianer";
 
 const Browse = () => {
-  return (
-    <div>Browse</div>
-  )
-}
+  useFetchMovieList()
 
-export default Browse
+  return (
+    <div>
+      <Header />
+      <MainContianer ></MainContianer>
+    </div>
+  );
+};
+
+export default Browse;
