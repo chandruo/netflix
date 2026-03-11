@@ -7,16 +7,22 @@ import { onAuthStateChanged } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { addUser, removeUser } from "../utils/userSlice";
 import {LOGO} from "../utils/constant"
+import { toggleSearch } from "../utils/gptSearchSlice";
 
 const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((store) => store.user);
+ 
   const handleSignOut = async () => {
     try {
       await signOut(auth);
     } catch (error) {}
   };
+  const handleSearch = () => {
+    dispatch(toggleSearch())
+  }
+  const isSearch = useSelector(state => state.gptSearch.searchEnabled)
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -41,6 +47,9 @@ const Header = () => {
       />
       {user && (
         <div>
+           <button onClick={handleSearch} className="font-bold p-2 m-2 text-white bg-red-600">
+            {isSearch ?  "homepage" : "search"}
+          </button>
           <button onClick={handleSignOut} className="font-bold p-2 m-2 text-white">
             Sign out
           </button>

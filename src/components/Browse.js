@@ -4,16 +4,25 @@ import useFetchMovieList from "../hooks/useFetchMovieList";
 import MainContianer from "./MainContianer";
 import SecondaryContainer from "./SecondaryContainer";
 import useFetchPopularMovies from "../hooks/useFetchPopularMovies";
+import { useSelector } from "react-redux";
+import GptSearch from "./GptSearch";
 
 const Browse = () => {
-  useFetchMovieList()
-  useFetchPopularMovies()
+  useFetchMovieList();
+  useFetchPopularMovies();
+  const searchEnabled = useSelector((state) => state.gptSearch.searchEnabled);
 
   return (
     <div>
       <Header />
-      <MainContianer ></MainContianer>
-      <SecondaryContainer/>
+      {searchEnabled ? (
+        <GptSearch />
+      ) : (
+        <div>
+          <MainContianer></MainContianer>
+          <SecondaryContainer />
+        </div>
+      )}
     </div>
   );
 };
