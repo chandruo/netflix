@@ -39,15 +39,15 @@ const Header = () => {
     };
   }, []);
   return (
-    <div className="absolute w-screen bg-gradient-to-b from-black z-10 flex justify-between">
+    <div className="absolute w-screen bg-gradient-to-b from-black z-10 flex flex-col md:flex-row justify-between">
       <img
-        className="w-40 px-8 py-2"
+        className="w-40 px-8 py-2 mx-auto md:mx-0"
         src={LOGO}
         alt="logo"
       />
       {user && (
         <div>
-           <button onClick={handleSearch} className="font-bold p-2 m-2 text-white bg-red-600">
+           <button onClick={handleSearch} className="font-bold p-2 m-2 text-white bg-red-600 rounded-lg">
             {isSearch ?  "homepage" : "search"}
           </button>
           <button onClick={handleSignOut} className="font-bold p-2 m-2 text-white">

@@ -6,12 +6,17 @@ const GptSearchBar = () => {
   const searchRef = useRef(null);
 
   const handleSearch = async () => {
+    const response = await client.responses.create({
+      model: "gpt-5.4",
+      input: "Write a short bedtime story about a unicorn.",
+    });
 
+    console.log(response.output_text);
   };
   return (
     <div>
       <img
-        className="h-screen w-screen -z-10"
+        className="h-screen object-cover w-screen -z-10"
         src="https://assets.nflxext.com/ffe/siteui/vlv3/5eb03855-b753-4788-b9b3-0cc29e3d2891/web/IN-en-20260223-TRIFECTA-perspective_7bcba0fc-d5a5-42f6-b4ed-2ca56a458c61_medium.jpg"
         alt="background"
       />
